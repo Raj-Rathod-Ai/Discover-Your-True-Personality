@@ -857,10 +857,9 @@ if submitted:
         display_df = pd.DataFrame(
             {"Feature": list(values.keys()), "Your Score": list(values.values())}
         ).set_index("Feature")
-        st.dataframe(
-            display_df.style.background_gradient(cmap="Purples", axis=0),
-            use_container_width=True,
-        )
+        # Avoid pandas Styler background gradients on Streamlit Cloud
+        # because it requires matplotlib (not always installed there).
+        st.dataframe(display_df, use_container_width=True)
 
     with st.expander("🔧  Debug — Model internals (check this if result seems wrong)"):
         raw_classes_str = ", ".join(f"{i}→'{c}'" for i, c in enumerate(model.classes_))
